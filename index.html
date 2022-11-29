@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Artemgus Generator</title>
+
+	<link rel="stylesheet" href="pico.min.css">
+	<link rel="stylesheet" href="gh-fork-ribbon.css">
+	<style>
+		:root {
+			--font-size: 16px;
+		}
+
+		#app {
+			max-width: 1200px;
+			margin: 0 auto;
+			font-family: Avenir, Helvetica, Arial, sans-serif;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+			margin-top: .5%;
+			padding: 0 2.5%;
+		}
+
+	</style>
+
+	<meta name="title" content="Artemgus Generator">
+	<meta name="description" content="You could sell those?">
+	<meta name="keywords" content="image generator, custom image">
+	<meta name="author" content="xarantolus">
+	<script type="application/ld+json">
+    {
+        "@context": "https://schema.org/",
+        "@type": "WebSite",
+        "name": "Artemgus Generator",
+        "url": "https://artemgus.010.one"
+    }
+    </script>
+</head>
+
+<body>
+	<a class="github-fork-ribbon" href="https://github.com/xarantolus/artemgus" data-ribbon="Fork me on GitHub" title="Fork me on GitHub">Fork me on GitHub</a>
+
+	<div id="app">
+		<h1 style="text-align: center">Artemgus Generator</h1>
+		<noscript>Sorry, this page requires JavaScript to replace the colors. Please enable it in your browser settings.</noscript>
+
+		<div class="grid">
+			<div>
+				<form>
+					<!-- pico.css form for inputting 6 colors with labels -->
+					<div class="form-group">
+						<label for="leftLeg">Left leg</label>
+						<input type="color" id="leftLeg" name="leftLeg" value="#3070B3">
+
+						<label for="rightLeg">Right leg</label>
+						<input type="color" id="rightLeg" name="rightLeg" value="#FFFFFC">
+
+						<details>
+							<summary>Customize eye colors</summary>
+
+							<label for="eyeRing">Eye ring</label>
+							<input type="color" id="eyeRing" name="eyeRing" value="#000000">
+
+							<label for="eyeUnderside">Eye underside</label>
+							<input type="color" id="eyeUnderside" name="eyeUnderside" value="#4A646E">
+
+							<label for="eyeBlue">Eye blue</label>
+							<input type="color" id="eyeBlue" name="eyeBlue" value="#98C7DC">
+
+							<label for="eyeInner">Eye inner color</label>
+							<input type="color" id="eyeInner" name="eyeInner" value="#FCFEFD">
+						</details>
+
+						<button id="reset-button" class="outline" role="button" type="reset">Reset</button>
+					</div>
+				</form>
+			</div>
+			<div class="artemgus-container">
+				<img id="artemgus" alt="Artemgus">
+			</div>
+		</div>
+	</div>
+	<script>
+		const defaultLeftLeg = "#3070B3";
+		const defaultRightLeg = "#FFFFFC";
+		const defaultEyeRing = "#000000"
+		const defaultEyeUnderSide = "#4A646E";
+		const defaultEyeBlue = "#98C7DC";
+		const defaultEyeInner = "#FCFEFD";
+
+		function createImageSVG(rightLeg, leftLeg, eyeRing, eyeUnderSide, eyeBlue, eyeInner) {
+			return `<svg width="2253" height="1966" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" overflow="hidden">
+	<defs>
+		<clipPath id="clip0">
+			<rect x="1802" y="20" width="2253" height="1966" />
+		</clipPath>
+	</defs>
+	<g clip-path="url(#clip0)" transform="translate(-1802 -20)">
+		<path fill="${rightLeg || defaultRightLeg}" d="M2933.09 983.497 3305.83 664.209 4054.02 1968.43Z" fill-rule="evenodd" />
+		<path fill="${leftLeg || defaultLeftLeg}" d="M2932.37 20.9125 3309.46 669.995 1802.7 1985.92Z" fill-rule="evenodd" />
+		<path fill="${eyeRing || defaultEyeRing}" d="M2885.25 456.405C2899.11 448.558 2914.93 439.185 2944.17 430.902 2973.41 422.618 3023.49 412.047 3060.7 406.706 3097.91 401.365 3127.69 400.385 3167.41 398.859 3207.13 397.333 3259.06 394.063 3299 397.551 3338.93 401.039 3377.45 410.085 3407.02 419.785 3436.59 429.485 3457.97 443.98 3476.41 455.751 3494.85 467.522 3506.2 478.202 3517.66 490.409 3529.11 502.616 3536.31 512.861 3545.15 528.991 3553.99 545.121 3563.48 560.379 3570.68 587.191 3577.88 614.002 3585.85 662.938 3588.36 689.858 3590.87 716.778 3590.87 726.151 3585.74 748.711 3580.61 771.272 3569.7 803.096 3557.59 825.221 3545.48 847.345 3531.62 866.528 3513.07 881.459 3494.52 896.39 3468.45 906.962 3446.3 914.809 3424.15 922.656 3404.73 924.945 3380.18 928.542 3355.63 932.139 3331.19 935.299 3299 936.389 3266.81 937.479 3220.33 937.152 3187.05 935.081 3153.77 933.01 3127.15 928.106 3099.33 923.964 3071.5 919.823 3046.52 917.207 3020.11 910.232 2993.71 903.257 2962.72 892.467 2940.9 882.113 2919.08 871.759 2905.22 863.258 2889.18 848.109 2873.14 832.959 2855.46 810.834 2844.66 791.217 2833.86 771.599 2829.17 751.218 2824.37 730.401 2819.57 709.584 2817.38 687.787 2815.86 666.316 2814.33 644.846 2812.91 624.356 2815.2 601.577 2817.49 578.798 2821.97 550.244 2829.61 529.645 2837.24 509.046 2851.54 489.646 2861.03 477.984 2870.52 466.322 2871.39 464.252 2885.25 456.405Z" fill-rule="evenodd" />
+		<path fill="${eyeUnderSide || defaultEyeUnderSide}" d="M2916.86 517.926C2923.73 508.847 2923.29 506.44 2933.88 501.518 2944.46 496.596 2959.09 493.095 2980.37 488.392 3001.64 483.688 3028.16 477.344 3061.55 473.297 3094.94 469.249 3146.12 465.749 3180.71 464.108 3215.3 462.467 3245.09 463.014 3269.1 463.452 3293.11 463.889 3302.93 462.467 3324.75 466.733 3346.58 470.999 3380.73 481.938 3400.05 489.048 3419.36 496.158 3427.55 499.768 3440.64 509.394 3453.74 519.019 3468.14 532.037 3478.62 546.804 3489.09 561.571 3497.17 580.823 3503.5 597.997 3509.82 615.17 3513.86 631.031 3516.59 649.846 3519.32 668.66 3520.41 693.709 3519.86 710.883 3519.32 728.057 3518.45 736.589 3513.32 752.887 3508.19 769.186 3498.48 794.236 3489.09 808.675 3479.71 823.113 3473.71 830.661 3457.01 839.521 3440.31 848.382 3413.58 856.476 3388.92 861.836 3364.26 867.196 3335.45 869.931 3309.04 871.681 3282.63 873.431 3254.26 873.212 3230.47 872.337 3206.68 871.462 3166.31 866.43 3166.31 866.43 3144.7 864.352 3121.46 862.602 3100.84 859.867 3080.21 857.132 3066.35 857.133 3042.56 850.023 3018.78 842.912 2978.62 828.254 2958.1 817.206 2937.59 806.159 2929.51 795.439 2919.48 783.734 2909.44 772.03 2903.11 759.451 2897.87 746.981 2892.63 734.511 2890.67 723.9 2888.05 708.914 2885.43 693.928 2883.57 673.364 2882.16 657.065 2880.74 640.767 2877.79 627.969 2879.54 611.123 2881.28 594.277 2887.72 569.885 2892.63 555.992 2897.54 542.101 2909.98 527.005 2916.86 517.926Z" fill-rule="evenodd" />
+		<path fill="${eyeBlue || defaultEyeBlue}" d="M2945.88 499.643C2937.37 512.723 2949.8 537.139 2956.34 559.811 2962.88 582.483 2974.44 614.529 2985.12 635.676 2995.8 656.822 3009.43 673.826 3020.44 686.688 3031.45 699.55 3039.3 705.654 3051.18 712.848 3063.07 720.042 3071.13 725.71 3091.74 729.852 3112.34 733.994 3143.74 736.065 3174.81 737.7 3205.87 739.335 3249.37 740.643 3278.15 739.662 3306.93 738.682 3326.77 734.975 3347.48 731.814 3368.2 728.653 3383.13 726.255 3402.43 720.696 3421.72 715.137 3447.34 705.109 3463.26 698.46 3479.17 691.811 3488.88 686.47 3497.92 680.802 3506.97 675.134 3514.38 667.722 3517.55 664.452 3520.71 661.182 3517.87 666.523 3516.89 661.182 3515.91 655.84 3514.06 642.979 3511.66 632.406 3509.26 621.833 3506.32 609.734 3502.5 597.744 3498.69 585.753 3493.35 569.076 3488.77 560.465 3484.19 551.854 3479.06 551.091 3475.03 546.077 3471 541.063 3471.43 536.594 3464.57 530.381 3457.7 524.168 3445.16 515.775 3433.82 508.799 3422.49 501.823 3410.49 494.411 3396.54 488.525 3382.59 482.639 3365.8 477.407 3350.1 473.483 3334.4 469.559 3321.76 466.725 3302.35 464.981 3282.95 463.237 3258.42 462.91 3233.67 463.019 3208.93 463.128 3181.89 464 3153.87 465.635 3125.86 467.27 3089.99 470.213 3065.57 472.829 3041.15 475.445 3026.66 477.298 3007.36 481.331 2988.06 485.364 2954.38 486.563 2945.88 499.643Z" fill-rule="evenodd" />
+		<path fill="${eyeInner || defaultEyeInner}" d="M3186.88 604.209C3204.76 611.191 3233.33 620.681 3256.23 625.808 3279.12 630.936 3301.69 634.645 3324.26 634.972 3346.83 635.299 3374.19 632.79 3391.64 627.772 3409.08 622.754 3421.73 612.5 3428.93 604.864 3436.12 597.227 3435.03 589.373 3434.81 581.955 3434.59 574.537 3432.09 567.228 3427.62 560.356 3423.15 553.483 3416.93 546.829 3407.99 540.72 3399.05 534.612 3388.8 529.266 3373.98 523.703 3359.15 518.139 3338.1 511.376 3319.03 507.339 3299.95 503.303 3279.23 500.467 3259.5 499.485 3239.76 498.504 3218.07 498.94 3200.62 501.449 3183.18 503.958 3166.82 509.085 3154.83 514.539 3142.84 519.994 3133.24 526.648 3128.66 534.175 3124.08 541.702 3123.97 551.411 3127.35 559.701 3130.73 567.992 3139.67 576.719 3148.94 583.919 3158.21 591.119 3169 597.228 3186.88 604.209Z" fill-rule="evenodd" />
+	</g>
+</svg>`
+		}
+
+
+		function svgToDataURI(svg) {
+			return 'data:image/svg+xml;base64,' + btoa(svg);
+		}
+
+		function updateSVG() {
+			// Get all colors from the form and plug it into createImageSVG
+			const svg = createImageSVG(
+				document.getElementById('rightLeg').value,
+				document.getElementById('leftLeg').value,
+				document.getElementById('eyeRing').value,
+				document.getElementById('eyeUnderside').value,
+				document.getElementById('eyeBlue').value,
+				document.getElementById('eyeInner').value,
+			);
+
+			document.querySelector("#artemgus").src = svgToDataURI(svg);
+		}
+
+		function resetForm(evt) {
+			evt.preventDefault();
+
+			document.querySelector("form").reset();
+			updateSVG();
+		}
+
+		// Update the image when the form changes
+		document.querySelectorAll('input').forEach(input => {
+			input.addEventListener('input', updateSVG);
+		});
+
+		document.getElementById("reset-button").addEventListener('click', resetForm);
+
+		updateSVG();
+	</script>
+</body>
+
+</html>
