@@ -24,6 +24,27 @@
 			padding: 0 2.5%;
 		}
 
+		@keyframes rainbow {
+			0% {
+				background-position: 0% 82%
+			}
+
+			50% {
+				background-position: 100% 19%
+			}
+
+			100% {
+				background-position: 0% 82%
+			}
+		}
+
+		.moving-rainbow-background-animation {
+			background: linear-gradient(20deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3);
+			background-size: 1800% 1800%;
+			animation: rainbow 18s ease infinite;
+			color: #fff;
+		}
+
 	</style>
 
 	<meta name="title" content="Artemgus Generator">
@@ -74,6 +95,8 @@
 							<input type="color" id="eyeInner" name="eyeInner" value="#FCFEFD">
 						</details>
 
+						<button id="randomize" class="primary outline moving-rainbow-background-animation" type="button">Randomize</button>
+
 						<div class="grid">
 							<button class="download-button primary outline" type="button" data-extension="svg">Download SVG</button>
 							<button class="download-button primary outline" type="button" data-width="2000">Download large</button>
@@ -115,7 +138,6 @@
 	</g>
 </svg>`
 		}
-
 
 		function svgToDataURI(svg) {
 			return 'data:image/svg+xml;base64,' + btoa(svg);
@@ -180,19 +202,33 @@
 			a.click();
 		}
 
-		function resetForm(evt) {
+		function resetColors(evt) {
 			evt.preventDefault();
 
 			document.querySelector("form").reset();
 			updateSVG();
 		}
 
-		// Update the image when the form changes
-		document.querySelectorAll('input').forEach(input => {
-			input.addEventListener('input', updateSVG);
-		});
+		function getRandomColor() {
+			const letters = '0123456789ABCDEF';
+			let color = '#';
+			for (let i = 0; i < 6; i++) {
+				color += letters[Math.floor(Math.random() * letters.length)];
+			}
+			return color;
+		}
 
-		function downloadFunction(evt) {
+		function setRandomColors(evt) {
+			evt.preventDefault();
+
+			document.getElementById('rightLeg').value = getRandomColor();
+			document.getElementById('leftLeg').value = getRandomColor();
+
+			updateSVG();
+		}
+
+
+		function downloadButtonClick(evt) {
 			evt.preventDefault();
 
 			const extension = evt.target.dataset.extension || 'png';
@@ -206,11 +242,15 @@
 			}
 		}
 
-		document.getElementById("reset-button").addEventListener('click', resetForm);
-		document.querySelectorAll(".download-button").forEach(button => {
-			button.addEventListener('click', downloadFunction);
-		});
 
+		document.querySelectorAll('input').forEach(input => {
+			input.addEventListener('input', updateSVG);
+		});
+		document.getElementById("reset-button").addEventListener('click', resetColors);
+		document.querySelectorAll(".download-button").forEach(button => {
+			button.addEventListener('click', downloadButtonClick);
+		});
+		document.getElementById("randomize").addEventListener('click', setRandomColors);
 		updateSVG();
 	</script>
 </body>
