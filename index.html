@@ -74,7 +74,14 @@
 							<input type="color" id="eyeInner" name="eyeInner" value="#FCFEFD">
 						</details>
 
-						<button id="reset-button" class="outline" role="button" type="reset">Reset</button>
+						<div class="grid">
+							<button class="download-button primary outline" type="button" data-extension="svg">Download SVG</button>
+							<button class="download-button primary outline" type="button" data-width="2000">Download large</button>
+							<button class="download-button primary outline" type="button" data-width="1000">Download medium</button>
+							<button class="download-button primary outline" type="button" data-width="500">Download small</button>
+						</div>
+
+						<button id="reset-button" class="secondary outline" role="button" type="reset">Reset</button>
 					</div>
 				</form>
 			</div>
@@ -128,6 +135,51 @@
 			document.querySelector("#artemgus").src = svgToDataURI(svg);
 		}
 
+		function downloadAsPNG(width) {
+			const ratio = 1966 / 2253;
+			const height = Math.floor(width * ratio);
+
+			const svg = createImageSVG(
+				document.getElementById('rightLeg').value,
+				document.getElementById('leftLeg').value,
+				document.getElementById('eyeRing').value,
+				document.getElementById('eyeUnderside').value,
+				document.getElementById('eyeBlue').value,
+				document.getElementById('eyeInner').value,
+			);
+
+			const canvas = document.createElement('canvas');
+			canvas.width = width;
+			canvas.height = height;
+
+			const ctx = canvas.getContext('2d');
+			const img = new Image();
+			img.onload = function () {
+				ctx.drawImage(img, 0, 0, width, height);
+				const a = document.createElement('a');
+				a.download = 'artemgus.png';
+				a.href = canvas.toDataURL('image/png');
+				a.click();
+			};
+			img.src = svgToDataURI(svg);
+		}
+
+		function downloadAsSVG() {
+			const svg = createImageSVG(
+				document.getElementById('rightLeg').value,
+				document.getElementById('leftLeg').value,
+				document.getElementById('eyeRing').value,
+				document.getElementById('eyeUnderside').value,
+				document.getElementById('eyeBlue').value,
+				document.getElementById('eyeInner').value,
+			);
+
+			const a = document.createElement('a');
+			a.download = 'artemgus.svg';
+			a.href = svgToDataURI(svg);
+			a.click();
+		}
+
 		function resetForm(evt) {
 			evt.preventDefault();
 
@@ -140,7 +192,24 @@
 			input.addEventListener('input', updateSVG);
 		});
 
+		function downloadFunction(evt) {
+			evt.preventDefault();
+
+			const extension = evt.target.dataset.extension || 'png';
+
+			if (extension == "svg") {
+				downloadAsSVG();
+			} else {
+				const width = parseInt(evt.target.dataset.width) || 500;
+
+				downloadAsPNG(width);
+			}
+		}
+
 		document.getElementById("reset-button").addEventListener('click', resetForm);
+		document.querySelectorAll(".download-button").forEach(button => {
+			button.addEventListener('click', downloadFunction);
+		});
 
 		updateSVG();
 	</script>
