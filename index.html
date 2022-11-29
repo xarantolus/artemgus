@@ -45,6 +45,10 @@
 			color: #fff;
 		}
 
+		.form-checkbox {
+			padding-bottom: 2.5%;
+		}
+
 	</style>
 
 	<meta name="title" content="Artemgus Generator">
@@ -102,13 +106,19 @@
 							<input type="color" id="eyeInner" name="eyeInner" value="#FCFEFD">
 						</details>
 
-						<button id="randomize" class="primary outline moving-rainbow-background-animation" type="button">Randomize</button>
+						<button id="randomize" class="primary outline moving-rainbow-background-animation" type="button">Randomize leg colors</button>
+
+
+						<div class="form-checkbox">
+							<input type="checkbox" id="margin" name="margin" checked>
+							<label for="margin">Add margin to PNG images (useful for profile pictures)</label>
+						</div>
 
 						<div class="grid">
-							<button class="download-button primary outline" type="button" data-extension="svg">Download SVG</button>
 							<button class="download-button primary outline" type="button" data-width="2000">Download large</button>
 							<button class="download-button primary outline" type="button" data-width="1000">Download medium</button>
 							<button class="download-button primary outline" type="button" data-width="500">Download small</button>
+							<button class="download-button primary outline" type="button" data-extension="svg">Download SVG</button>
 						</div>
 
 						<button id="reset-button" class="secondary outline" role="button" type="reset">Reset</button>
@@ -190,21 +200,27 @@
 		}
 
 		function downloadAsPNG(width) {
+			const addMargin = document.querySelector("#margin").checked;
+
 			const ratio = document.querySelector("#artemgus-type") === "normal" ? 1966 / 2253 : 2027 / 2252;
-
-
 			const height = Math.floor(width * ratio);
 
 			const svg = createSVGFromForm();
 
 			const canvas = document.createElement('canvas');
-			canvas.width = width;
-			canvas.height = height;
+
+			const marginTop = (addMargin ? 125 : 0) * (width / 500);
+			const marginLeft = (addMargin ? 125 : 0) * (width / 500);
+			const marginRight = (addMargin ? 125 : 0) * (width / 500);
+			const marginBottom = (addMargin ? 250 : 0) * (width / 500);
+
+			canvas.width = width + marginLeft + marginRight;
+			canvas.height = height + marginTop + marginBottom;
 
 			const ctx = canvas.getContext('2d');
 			const img = new Image();
 			img.onload = function () {
-				ctx.drawImage(img, 0, 0, width, height);
+				ctx.drawImage(img, marginLeft, marginTop, width, height);
 				const a = document.createElement('a');
 				a.download = 'artemgus.png';
 				a.href = canvas.toDataURL('image/png');
