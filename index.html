@@ -314,9 +314,6 @@
 			}
 		}
 
-		document.getElementById("gradient").addEventListener("change", gradientUpdate);
-
-
 		function createSVGFromForm() {
 			const gradient = document.querySelector("#gradient").checked;
 
@@ -472,6 +469,11 @@
 			button.addEventListener('click', downloadButtonClick);
 		});
 		document.getElementById("randomize").addEventListener('click', setRandomColors);
+
+		document.getElementById("gradient").addEventListener("change", gradientUpdate);
+
+
+		gradientUpdate();
 		updateSVG();
 	</script>
 </body>
