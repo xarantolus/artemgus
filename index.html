@@ -56,6 +56,7 @@
 		.text-center {
 			text-align: center;
 		}
+
 	</style>
 
 	<meta name="title" content="Artemgus Generator">
@@ -91,11 +92,38 @@
 							<option value="santa">SantAmogus</option>
 						</select>
 
-						<label for="leftLeg">Left leg</label>
-						<input type="color" id="leftLeg" name="leftLeg" value="#3070B3">
+						<div class="form-checkbox">
+							<input type="checkbox" id="gradient" name="gradient">
+							<label for="gradient">Use a Gradient for the legs</label>
+						</div>
 
-						<label for="rightLeg">Right leg</label>
-						<input type="color" id="rightLeg" name="rightLeg" value="#FFFFFC">
+						<div id="leg-colors">
+							<label for="leftLeg">Left leg</label>
+							<input type="color" id="leftLeg" name="leftLeg" value="#3070B3">
+
+							<label for="rightLeg">Right leg</label>
+							<input type="color" id="rightLeg" name="rightLeg" value="#FFFFFC">
+						</div>
+
+						<div id="gradient-wrap" style="display: none">
+							<label for="gradient-type">Gradient Type</label>
+							<select id="gradient-type">
+								<option value="linear">Linear</option>
+								<option value="radial">Radial</option>
+							</select>
+
+							<label for="leftLegGradientOne">Left Leg Color #1</label>
+							<input type="color" id="leftLegGradientOne" name="eyeRing" value="#3070B3">
+
+							<label for="leftLegGradientTwo">Left Leg Color #2</label>
+							<input type="color" id="leftLegGradientTwo" name="eyeRing" value="#307033">
+
+							<label for="rightLegGradientOne">Right Leg Color #1</label>
+							<input type="color" id="rightLegGradientOne" name="eyeRing" value="#FFFFFC">
+
+							<label for="rightLegGradientTwo">Right Leg Color #2</label>
+							<input type="color" id="rightLegGradientTwo" name="eyeRing" value="#FFFF4f">
+						</div>
 
 						<details>
 							<summary>Customize eye colors</summary>
@@ -111,32 +139,6 @@
 
 							<label for="eyeInner">Eye inner color</label>
 							<input type="color" id="eyeInner" name="eyeInner" value="#FCFEFD">
-						</details>
-
-						<details>
-							<summary>Gradient</summary>
-							<div class="form-checkbox">
-								<input type="checkbox" id="gradient" name="gradient">
-								<label for="gradient">Gradient</label>
-							</div>
-
-							<label for="gradient-type">Gradient Type</label>
-							<select id="gradient-type">
-								<option value="linear">Linear</option>
-								<option value="radial">Radial</option>
-							</select>
-
-							<label for="leftLegGradientOne">Left Leg Color #1</label>
-							<input type="color" id="leftLegGradientOne" name="eyeRing" value="#3070B3">
-
-							<label for="leftLegGradientTwo">Left Leg Color #2</label>
-							<input type="color" id="leftLegGradientTwo" name="eyeRing" value="#3070B3">
-
-							<label for="rightLegGradientOne">Right Leg Color #1</label>
-							<input type="color" id="rightLegGradientOne" name="eyeRing" value="#FFFFFC">
-
-							<label for="rightLegGradientTwo">Right Leg Color #2</label>
-							<input type="color" id="rightLegGradientTwo" name="eyeRing" value="#FFFFFC">
 						</details>
 
 						<button id="randomize" class="primary outline moving-rainbow-background-animation" type="button">Randomize leg colors</button>
@@ -297,6 +299,22 @@
 			}
 		}
 
+		function gradientUpdate() {
+			const gradient = document.querySelector("#gradient").checked;
+
+			const legColors = document.querySelector("#leg-colors");
+			const gradientWrap = document.querySelector("#gradient-wrap");
+
+			if (gradient) {
+				legColors.style.display = "none";
+				gradientWrap.style.display = "block";
+			} else {
+				gradientWrap.style.display = "none";
+				legColors.style.display = "block";
+			}
+		}
+
+		document.getElementById("gradient").addEventListener("change", gradientUpdate);
 
 
 		function createSVGFromForm() {
@@ -304,30 +322,30 @@
 
 			if (gradient) {
 				return createGradientImageSVG(
-				document.getElementById('artemgus-type').value,
-				document.getElementById('gradient-type').value,
-				document.getElementById('beak').checked,
-				document.getElementById('rightLegGradientOne').value,
-				document.getElementById('rightLegGradientTwo').value,
-				document.getElementById('leftLegGradientOne').value,
-				document.getElementById('leftLegGradientTwo').value,
-				document.getElementById('eyeRing').value,
-				document.getElementById('eyeUnderside').value,
-				document.getElementById('eyeBlue').value,
-				document.getElementById('eyeInner').value,
-			);
+					document.getElementById('artemgus-type').value,
+					document.getElementById('gradient-type').value,
+					document.getElementById('beak').checked,
+					document.getElementById('rightLegGradientOne').value,
+					document.getElementById('rightLegGradientTwo').value,
+					document.getElementById('leftLegGradientOne').value,
+					document.getElementById('leftLegGradientTwo').value,
+					document.getElementById('eyeRing').value,
+					document.getElementById('eyeUnderside').value,
+					document.getElementById('eyeBlue').value,
+					document.getElementById('eyeInner').value,
+				);
 			}
 			else {
 				return createImageSVG(
-				document.getElementById('artemgus-type').value,
-				document.getElementById('beak').checked,
-				document.getElementById('rightLeg').value,
-				document.getElementById('leftLeg').value,
-				document.getElementById('eyeRing').value,
-				document.getElementById('eyeUnderside').value,
-				document.getElementById('eyeBlue').value,
-				document.getElementById('eyeInner').value,
-			);
+					document.getElementById('artemgus-type').value,
+					document.getElementById('beak').checked,
+					document.getElementById('rightLeg').value,
+					document.getElementById('leftLeg').value,
+					document.getElementById('eyeRing').value,
+					document.getElementById('eyeUnderside').value,
+					document.getElementById('eyeBlue').value,
+					document.getElementById('eyeInner').value,
+				);
 			}
 		}
 
