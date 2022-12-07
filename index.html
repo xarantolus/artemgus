@@ -117,6 +117,8 @@
 							<input type="color" id="rightLegGradientTwo" name="eyeRing" value="#FFFF4f">
 						</div>
 
+						<button id="randomize" class="primary outline moving-rainbow-background-animation" type="button">Randomize leg colors</button>
+
 						<details>
 							<summary>Customize eye colors</summary>
 
@@ -133,21 +135,21 @@
 							<input type="color" id="eyeInner" name="eyeInner" value="#FCFEFD">
 						</details>
 
-						<button id="randomize" class="primary outline moving-rainbow-background-animation" type="button">Randomize leg colors</button>
+						<details open>
+							<summary>Other components</summary>
+							<div class="form-checkbox">
+								<input type="checkbox" id="santaHat" name="santaHat">
+								<label for="santaHat">Add santa hat</label>
+							</div>
+							<div class="form-checkbox">
+								<input type="checkbox" id="beak" name="beak">
+								<label for="beak">This is a duck</label>
+							</div>
+						</details>
 
 						<div class="form-checkbox">
 							<input type="checkbox" id="margin" name="margin" checked>
 							<label for="margin">Add margin to downloaded images (useful for profile pictures)</label>
-						</div>
-
-						<div class="form-checkbox">
-							<input type="checkbox" id="beak" name="beak">
-							<label for="beak">This is a duck</label>
-						</div>
-
-						<div class="form-checkbox">
-							<input type="checkbox" id="santaHat" name="santaHat">
-							<label for="santaHat">Add santa hat</label>
 						</div>
 
 						<div class="grid">
@@ -184,7 +186,7 @@
 
 		const componentDefs = {
 			beak: {
-				label: "This is a duck",
+				checkboxId: "beak",
 				svg: `<svg width="752" height="594" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" overflow="hidden">
 	<defs>
 		<clipPath id="clip0">
@@ -204,7 +206,7 @@
 </svg>`,
 			},
 			santaHat: {
-				label: "SantAmogus",
+				checkboxId: "santaHat",
 				svg: `<path d="M2958.42 355.366C2958.1 340.765 2951.66 329.869 2946.65 320.716 2941.64 311.563 2928.34 300.449 2928.34 300.449 2920.05 291.296 2911.55 279.093 2896.94 265.799 2882.34 252.506 2860.64 235.181 2840.7 220.689 2820.75 206.197 2791.43 187.347 2777.25 178.848 2763.08 170.348 2765.81 171.329 2755.67 169.695 2745.53 168.06 2728.2 167.189 2716.43 169.041 2704.66 170.893 2694.63 175.252 2685.04 180.809 2675.44 186.366 2666.29 196.499 2658.87 202.383 2651.46 208.267 2648.74 210.12 2640.56 216.113 2632.39 222.105 2621.81 232.348 2609.82 238.341 2597.83 244.334 2582.68 245.968 2568.62 252.07 2554.56 258.172 2538.97 266.453 2525.45 274.952 2511.93 283.451 2502.01 292.604 2487.52 303.064 2473.02 313.524 2451.98 324.857 2438.46 337.714 2424.95 350.572 2415.9 364.737 2406.42 380.21 2396.93 395.682 2388.32 412.68 2381.56 430.55 2374.8 448.42 2370.01 466.071 2365.87 487.428 2361.72 508.785 2353.55 527.635 2356.71 558.689 2359.87 589.744 2373.28 654.249 2384.83 673.753 2396.39 693.257 2417.43 679.637 2426.04 675.715 2434.65 671.792 2434.32 662.203 2436.5 650.218 2438.68 638.232 2439.34 621.887 2439.12 603.799 2438.9 585.712 2435.3 559.997 2435.19 541.691 2435.09 523.385 2436.2 505.597 2438.46 493.966 2440.73 482.334 2444.51 471.029 2448.77 471.901 2453.02 472.773 2456.31 492.032 2463.97 499.196 2471.63 506.361 2469.53 513.688 2494.71 514.886 2519.89 516.085 2539.4 524.148 2615.05 506.388 2690.7 488.627 2891.28 432.511 2948.61 408.322 3005.95 384.132 2958.75 369.967 2958.42 355.366Z" fill="#CE0000" fill-rule="evenodd" />
 		<path d="M0 31.1529C0 13.9476 13.9476-4.81635e-15 31.1529-9.63271e-15L574.138 0C591.343-4.81635e-15 605.291 13.9476 605.291 31.1529L605.291 155.761C605.291 172.966 591.343 186.914 574.138 186.914L31.1529 186.914C13.9476 186.914-4.81635e-15 172.966-9.63269e-15 155.761Z" fill="#FCFEFD" fill-rule="evenodd" transform="matrix(-0.946342 0.323167 0.323167 0.946342 2983.93 306.709)" />
 		<path d="M0 93.0835C-1.18508e-14 41.6749 41.6749-1.18508e-14 93.0835-2.37016e-14 144.492-4.74031e-14 186.167 41.6749 186.167 93.0835 186.167 144.492 144.492 186.167 93.0835 186.167 41.6749 186.167-5.92539e-14 144.492 0 93.0835Z" fill="#FCFEFD" fill-rule="evenodd" transform="matrix(-0.997085 -0.0763049 -0.0763049 0.997085 2516.95 653.157)" />`
@@ -262,9 +264,9 @@
 		function createSVGFromForm() {
 			const gradient = document.querySelector("#gradient").checked;
 
-			const components = {
-				'beak': document.getElementById("beak").checked,
-				'santaHat': document.getElementById("santaHat").checked,
+			const components = {}
+			for (const component of Object.keys(componentDefs)) {
+				components[component] = document.getElementById(component).checked;
 			}
 
 			if (gradient) {
