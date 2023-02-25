@@ -156,6 +156,8 @@
 						</div>
 
 						<button id="reset-button" class="secondary outline" role="button" type="reset">Reset</button>
+
+						<button id="copy-button" class="primary outline" role="button" type="button">Share the word!</button>
 					</div>
 				</form>
 			</div>
@@ -424,6 +426,42 @@
 			}
 		}
 
+		const adText = `Looking to add some art to your life? Look no further than Artemgus! Our powerful image generator uses cutting-edge algorithms to create stunning, one-of-a-kind digital artwork that will take your breath away.
+
+Whether you're looking for something abstract and colorful to brighten up your workspace or a more realistic landscape to decorate your home, Artemgus has something for everyone. With a wide variety of styles and themes to choose from, you're sure to find the perfect image to suit your taste.
+
+And the best part? Our images are all available for instant download, so you can start enjoying them right away. Plus, our affordable pricing (free) means you can add as many images to your collection as you like without breaking the bank.
+
+So why wait? Visit us today at https://artemgus.010.one and start exploring the world of digital art with Artemgus!`
+
+		function copyAdToClipboard() {
+			const copyButton = document.getElementById("copy-button");
+
+			if (navigator.clipboard) {
+				navigator.clipboard.writeText(adText).catch(function (err) {
+					alert("Failed to copy to clipboard: " + err);
+				});
+			}
+			else {
+				const textArea = document.createElement("textarea");
+				textArea.value = adText;
+				document.body.appendChild(textArea);
+				textArea.focus();
+				textArea.select();
+
+				document.execCommand('copy');
+
+				document.body.removeChild(textArea);
+			}
+
+			copyButton.innerText = "Copied!";
+
+			setTimeout(() => {
+				copyButton.innerText = "Share the word!";
+			}, 2000);
+		}
+
+
 
 		function registerUpdateListener(selector, event) {
 			document.querySelectorAll(selector).forEach(input => {
@@ -439,6 +477,8 @@
 		});
 		document.getElementById("randomize").addEventListener('click', setRandomColors);
 		document.getElementById("gradient").addEventListener("change", toggleColorGradientSection);
+
+		document.getElementById("copy-button").addEventListener('click', copyAdToClipboard);
 
 		toggleColorGradientSection();
 		updateSVG();
