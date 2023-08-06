@@ -9,6 +9,8 @@
 
 	<link rel="stylesheet" href="pico.min.css">
 	<link rel="stylesheet" href="gh-fork-ribbon.css">
+
+	<script src="https://cdn.jsdelivr.net/gh/kammt/dis-troll.js/dis-troll.js"></script>
 	<style>
 		:root {
 			--font-size: 16px;
@@ -411,6 +413,8 @@
 		}
 
 		function downloadAsSVG() {
+			startDistrollTimer(4, 10);
+
 			const svg = createSVGFromForm();
 
 			const a = document.createElement('a');
@@ -439,6 +443,8 @@
 
 		function setRandomColors(evt) {
 			evt.preventDefault();
+			startDistrollTimer(4, 10);
+
 			const gradient = document.querySelector("#gradient").checked;
 
 			if (gradient) {
@@ -455,9 +461,10 @@
 			updateSVG();
 		}
 
-
 		function downloadButtonClick(evt) {
 			evt.preventDefault();
+
+			startDistrollTimer(4, 10);
 
 			const extension = evt.target.dataset.extension || 'png';
 
@@ -479,6 +486,8 @@ And the best part? Our images are all available for instant download, so you can
 So why wait? Visit us today at https://artemgus.010.one and start exploring the world of digital art with Artemgus!`
 
 		function copyAdToClipboard() {
+			startDistrollTimer(4, 10);
+
 			const copyButton = document.getElementById("copy-button");
 
 			if (navigator.clipboard) {
@@ -526,6 +535,8 @@ So why wait? Visit us today at https://artemgus.010.one and start exploring the 
 
 		toggleColorGradientSection();
 		updateSVG();
+
+		startDistrollTimer(4, 10);
 	</script>
 </body>
 
