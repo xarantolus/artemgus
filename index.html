@@ -66,6 +66,8 @@
 	<meta name="keywords" content="image generator, custom image">
 	<meta property="og:image" content="https://artemgus.010.one/preview.png">
 
+	<link id="favicon" href="resources/artemgus.svg" rel="icon" type="image/svg+xml">
+
 	<meta name="author" content="xarantolus">
 	<script type="application/ld+json">
     {
@@ -378,7 +380,9 @@
 		function updateSVG() {
 			const svg = createSVGFromForm();
 
-			document.querySelector("#artemgus").src = svgToDataURI(svg);
+			const svgData = svgToDataURI(svg);
+			document.querySelector("#artemgus").src = svgData;
+			document.getElementById("favicon").href = svgData;
 		}
 
 
